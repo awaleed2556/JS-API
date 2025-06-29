@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Project</title>
+</head>
+
+<body x-data="App()">
+    <div x-init="getYears()">
+        <!-- All Years -->
+        <h3>Years</h3>
+        <div class="sub-div">
+            <template x-for="yr in years">
+                <a href="#" x-text="yr.year" @click="getSemesters(yr.year)" :class="click.clicked_year === yr.year ? 'active-link' : ''"></a>
+            </template>
+        </div>
+    </div>
+    <!-- Semesters -->
+    <div x-show="click.clicked_year !== ''">
+        <h3>Semesters</h3>
+        <div class="sub-div">
+            <template x-for="sem in semesters">
+                <a href="#" x-text="sem.semester" @click="getFaculty(sem.semester)" :class="click.clicked_semester === sem.semester ? 'active-link' : ''"></a>
+            </template>
+        </div>
+    </div>
+    <!-- Faculty -->
+    <div x-show="click.clicked_semester !== ''">
+        <h3>Instructor</h3>
+        <div class="sub-div">
+            <template x-for="f in faculty">
+                <a href="#" x-text="f.name" @click="getCriteria(f.fid)" :class="click.clicked_faculty === f.fid ? 'active-link' : ''"></a>
+            </template>
+        </div>
+    </div>
+    <!-- Criteria -->
+    <div x-show="click.clicked_faculty !== ''">
+        <h3>Criteria</h3>
+        <div class="sub-div">
+            <table>
+                <tr>
+                    <th>Grade</th>
+                    <th>Average</th>
+                    <th>Marking Criteria</th>
+                </tr>
+
+                <template x-for="crit in criteria">
+                    <tr>
+                        <td x-text="crit.grade"></td>
+                        <td x-text="crit.average"></td>
+                        <td x-text="crit.marking_criteria"></td>
+                    </tr>
+                </template>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
