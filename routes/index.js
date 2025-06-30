@@ -26,28 +26,19 @@ router.get('/faculty/:year/:semester', async (req,res) => {
 
 router.get(`/criteria/:year/:semster/:fid`, async(req,res) => {
     const crit = await sql`
-    SELECT grade, avg_all AS average,
-    CASE 
-    WHEN avg_all > 86 THEN 'Lenient'
-    WHEN avg_all > 70 THEN 'Moderate'
-    WHEN avg_all > 59 THEN 'Strict'
-    ELSE 'Very Strict'
-    END AS marking_criteria
-    FROM grade g,
-    (
-        SELECT AVG(a) AS avg_all
-        FROM (
-            SELECT AVG(marks) AS a
-            FROM cmarks m 
-            JOIN recap r ON r.rid = m.rid 
-            WHERE m.hid = 246 
-                AND r.year = ${req.params.year} 
-                AND r.semester = ${req.params.semster}
-                AND fid = ${req.params.fid}
-            GROUP BY class
-        ) AS per_class_avg
-    ) AS overall_avg
-    WHERE ROUND(avg_all) BETWEEN g.start AND g.end;`
+    SELECT g.gradeid,g.grade, COUNT(g.grade) total 
+    FROM cmarks m, grade g
+    WHERE m.rid in
+    (SELECT rid 
+    FROM faculty f 
+    JOIN recap r 
+    ON f.fid = r.fid 
+    WHERE f.fid = ${req.params.fid} 
+    AND semester = ${req.params.semster} 
+    AND year = ${req.params.year}
+    AND hid = 246
+    AND ROUND(marks) BETWEEN g.start AND g.end )
+    GROUP BY g.grade,g.gradeid;`
     res.status(200).json(crit);
 });
 

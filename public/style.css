@@ -53,6 +53,9 @@ table {
     width: 500px;
 }
 
-
+.evaluation {
+    display: flex;
+    flex-direction: row;
+}
 
 

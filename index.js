@@ -8,6 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));                      
 
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.json());                                                        // convert the parameters to json when using post
+
 app.get('/', (req,res) => res.sendFile(path.join(__dirname,'index.html')));      // at the root route / send the html file            
 app.use('/api',indexRouter);                                                    // middleware
 

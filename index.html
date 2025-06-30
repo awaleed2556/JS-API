@@ -38,24 +38,30 @@
         </div>
     </div>
     <!-- Criteria -->
-    <div x-show="click.clicked_faculty !== ''">
-        <h3>Criteria</h3>
-        <div class="sub-div">
-            <table>
-                <tr>
-                    <th>Grade</th>
-                    <th>Average</th>
-                    <th>Marking Criteria</th>
-                </tr>
-
-                <template x-for="crit in criteria">
+    <div class="evaluation" x-show="click.clicked_faculty !== ''">
+        <div>            
+            <h3>Criteria</h3>
+            <div class="sub-div">
+                <table>
                     <tr>
-                        <td x-text="crit.grade"></td>
-                        <td x-text="crit.average"></td>
-                        <td x-text="crit.marking_criteria"></td>
+                        <th>Grade</th>
+                        <th>No. of Students</th>
                     </tr>
-                </template>
-            </table>
+                    
+                    <template x-for="crit in criteria">
+                        <tr>
+                            <td x-text="crit.grade"></td>
+                            <td x-text="crit.total"></td>
+                        </tr>
+                    </template>
+                </table>
+            </div>
+        </div>
+        <div>
+            <h3>Evaluation</h3>
+            <div>
+                <p x-text="t_eval.ev"></p>
+            </div>
         </div>
     </div>
 </body>
